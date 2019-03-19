@@ -23,16 +23,8 @@ restService.post("/getItemsForCategory", function(req, res) {
             "fulfillmentText": "Response from web hook for category " + category,
               "fulfillmentMessages": [
                 {
-                  "card": {
-                    "title": "card title",
-                    "subtitle": "card text",
-                    "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                    "buttons": [
-                      {
-                        "text": "button text",
-                        "postback": "https://assistant.google.com/"
-                      }
-                    ]
+                  "text": {
+                    "text": ["Response from web hook for category " + category]
                   }
                 }
               ],
