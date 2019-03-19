@@ -13,6 +13,37 @@ restService.use(
 
 restService.use(bodyParser.json());
 
+restService.post("/getItemsForCategory", function(req, res) {
+  var category = req.body.queryResult.parameters[ItemCategory];
+  let responseObj = {
+            "fulfillmentText": "Response from webhoof for category " + category,
+              "fulfillmentMessages": [
+                {
+                  "card": {
+                    "title": "card title",
+                    "subtitle": "card text",
+                    "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                    "buttons": [
+                      {
+                        "text": "button text",
+                        "postback": "https://assistant.google.com/"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "source": "hackday-service.herokuapp.com"
+  };
+  return res.json(responseObj);
+});
+
+//function getItemsForCategory(category) {
+//    result = undefined;
+//    var url = "https://www.samsclub.com/api/node/vivaldi/v1/products/search/?sourceType=1&selectedFilter=all&sortKey=relevance&sortOrder=1&offset=0&limit=48&searchTerm=" +
+//    category + "&clubId=6612";
+//}
+
+
 restService.post("/echo", function(req, res) {
   var speech =
     req.body.result &&
