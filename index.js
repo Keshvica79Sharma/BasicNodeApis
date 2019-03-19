@@ -14,9 +14,13 @@ restService.use(
 restService.use(bodyParser.json());
 
 restService.post("/getItemsForCategory", function(req, res) {
-  var category = req.body.queryResult.parameters[ItemCategory];
-  let responseObj = {
-            "fulfillmentText": "Response from webhoof for category " + category,
+  if(!req.body) return res.sendStatus(400);
+  res.setHeader('Content-Type', 'application/json');
+
+  var category = req.body.queryResult.parameters['ItemCategory'];
+
+  var responseObj = {
+            "fulfillmentText": "Response from web hook for category " + category,
               "fulfillmentMessages": [
                 {
                   "card": {
@@ -33,7 +37,7 @@ restService.post("/getItemsForCategory", function(req, res) {
                 }
               ],
               "source": "hackday-service.herokuapp.com"
-  };
+  }
   return res.json(responseObj);
 });
 
