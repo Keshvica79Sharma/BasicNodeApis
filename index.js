@@ -44,6 +44,32 @@ restService.post("/getItemsForCategory", function(req, res) {
   return res.json(responseObj);
 });
 
+restService.post("/getItemsForCategoryQuickReplies", function(req, res) {
+  if(!req.body) return res.sendStatus(400);
+  res.setHeader('Content-Type', 'application/json');
+
+  var category = req.body.queryResult.parameters['ItemCategory'];
+
+  var responseObj = {
+            "fulfillmentText": "Response from web hook for category " + category,
+              "fulfillmentMessages": [
+                {
+                  "quickReplies": {
+                                    "title": "Hi, I am responding from web hook",
+                                    "quickReplies": [
+                                      "banana 1",
+                                      "banana 2",
+                                      "banana 3"
+                                    ]
+                  }
+
+                }
+              ],
+              "source": "hackday-service.herokuapp.com"
+  }
+  return res.json(responseObj);
+});
+
 //function getItemsForCategory(category) {
 //    result = undefined;
 
