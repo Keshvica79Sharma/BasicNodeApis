@@ -51,7 +51,6 @@ restService.post("/getItemsForCategoryQuickReplies", function(req, res) {
   var category = req.body.queryResult.parameters['ItemCategory'];
 
   var responseObj = {
-            "fulfillmentText": "Response from web hook for category " + category,
               "fulfillmentMessages": [
                 {
                   "quickReplies": {
