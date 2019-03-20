@@ -20,15 +20,15 @@ restService.post("/getItemsForCategory", function(req, res) {
 
   var category = req.body.queryResult.parameters['ItemCategory'];
 
-//  var request = require('request');
-//  var url = "https://www.samsclub.com/api/node/vivaldi/v1/products/search/?sourceType=1&selectedFilter=all&sortKey=relevance&sortOrder=1&offset=0&limit=48&searchTerm=" +
-//  category + "&clubId=6612";
-//
-//  request(url, function (error, response, body) {
-//      if (!error && response.statusCode == 200) {
-//          return body;
-//       }
-//  })
+  var request = require('request');
+  var url = "https://www.samsclub.com/api/node/vivaldi/v1/products/search/?sourceType=1&selectedFilter=all&sortKey=relevance&sortOrder=1&offset=0&limit=48&searchTerm=" +
+  category + "&clubId=6612";
+
+  request(url, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+          return body;
+       }
+  })
 
   var responseObj = {
             "fulfillmentText": "Response from web hook for category " + category,
@@ -51,6 +51,7 @@ restService.post("/getItemsForCategoryQuickReplies", function(req, res) {
   var category = req.body.queryResult.parameters['ItemCategory'];
 
   var responseObj = {
+              "fulfillmentText": "Sure, I have a few options  like banana 1, banana 2, banana 3",
               "fulfillmentMessages": [
                 {
                   "quickReplies": {
