@@ -179,6 +179,22 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
+             "fulfillmentText": "This is a text response",
+             "fulfillmentMessages": [
+               {
+                 "card": {
+                   "title": "card title",
+                   "subtitle": "card text",
+                   "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+                   "buttons": [
+                     {
+                       "text": "button text",
+                       "postback": "https://assistant.google.com/"
+                     }
+                   ]
+                 }
+               }
+             ],
              "source": "example.com",
              "payload": {
                "google": {
@@ -186,12 +202,9 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                  "richResponse": {
                    "items": [
                      {
-                       "quickReplies": {
-                        "title": "New These are your options",
-                        "quickReplies": [
-                                "Button1", "Button2", "Button3"
-                        ]
-                        }
+                       "simpleResponse": {
+                         "textToSpeech": "hello this is a simple response"
+                       }
                      }
                    ]
                  }
