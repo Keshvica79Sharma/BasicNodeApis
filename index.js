@@ -27,18 +27,9 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
 
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
       var outputContexts = req.body.queryResult.outputContexts;
-
-//      [{\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/google_assistant_input_type_touch\"},
-//      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_intent_option\",
-//      \"parameters\":{\"OPTION\":\"Grape Tomatoes (2 lbs.)\",\"text\":\"Grape Tomatoes (2 lbs.)\"}},
-//      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_capability_screen_output\"},
-//      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_capability_audio_output\"},
-//      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_capability_media_response_audio\"},
-//      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_capability_web_browser\"}]
-
       var optionObject = _.find(outputContexts, function(cont){ return cont.parameters != undefined; });
 
-      responseObj = orderItem(optionObject.parameters, 'hello');
+      responseObj = orderItem(optionObject.parameters.text, 'hello');
       return res.json(responseObj);
   }
 
