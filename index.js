@@ -174,9 +174,11 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     var topMatches = _.filter(filterRecordsPerCategory, function(record) {
         return record.itemFlag == itemFlag;
     });
-    var topFiveMatches = _.filter(topMatches, function(record) {
-            return topMatches.indexOf(record) < 5;
+    var topThreeMatches = _.filter(topMatches, function(record) {
+            return topMatches.indexOf(record) < 3;
     });
+
+    console.dir(topThreeMatches[0]);
 
     return {
              "fulfillmentText": "This is a text response",
@@ -203,7 +205,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                 "items": [
                                   {
                                     "simpleResponse": {
-                                      "textToSpeech": "Choose a item"
+                                      "textToSpeech": "Here is a list of top three matches for your search"
                                     }
                                   }
                                 ]
@@ -213,29 +215,40 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                 "data": {
                                   "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
                                   "listSelect": {
-                                    "title": "Hello",
+                                    "title": category,
                                     "items": [
                                       {
                                         "optionInfo": {
-                                          "key": "first title key"
+                                          "key": "first",
                                         },
-                                        "description": "first description",
+                                        "description": "",
                                         "image": {
-                                          "url": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                                          "url": "https:" + topThreeMatches[0].listImage,
                                           "accessibilityText": "first alt"
                                         },
-                                        "title": "first title"
+                                        "title": topThreeMatches[0].productName
                                       },
                                       {
                                         "optionInfo": {
                                           "key": "second"
                                         },
-                                        "description": "second description",
+                                        "description": "",
                                         "image": {
-                                          "url": "https://lh3.googleusercontent.com/Nu3a6F80WfixUqf_ec_vgXy_c0-0r4VLJRXjVFF_X_CIilEu8B9fT35qyTEj_PEsKw",
+                                          "url": "https:" + topThreeMatches[1].listImage,
                                           "accessibilityText": "second alt"
                                         },
-                                        "title": "second title"
+                                        "title": topThreeMatches[1].productName
+                                      },
+                                      {
+                                        "optionInfo": {
+                                                   "key": "third"
+                                        },
+                                        "description": "",
+                                        "image": {
+                                         "url": "https:" + topThreeMatches[2].listImage,
+                                         "accessibilityText": "second alt"
+                                         },
+                                         "title": topThreeMatches[2].productName
                                       }
                                     ]
                                   }
