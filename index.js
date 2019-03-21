@@ -38,7 +38,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
 
       var optionObject = _.find(outputContexts, function(cont){ return cont.parameters != undefined; });
 
-      responseObj = orderItem(optionObject, 'hello');
+      responseObj = orderItem(optionObject.parameters, 'hello');
       return res.json(responseObj);
   }
 
