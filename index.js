@@ -28,8 +28,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
       var outputContexts = req.body.queryResult.outputContexts;
       var optionObject = _.find(outputContexts, function(cont){ return cont.parameters != undefined; });
-
-      responseObj = orderItem(optionObject.parameters.text, 'hello');
+      responseObj = orderItem(optionObject.parameters.text);
       return res.json(responseObj);
   }
 
@@ -177,13 +176,13 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   });
 });
 
-function orderItem(body, itemToOrder) {
+function orderItem(itemToOrder) {
     return {
               "fulfillmentText": "Sure, Added " + itemToOrder + " to your cart",
               "fulfillmentMessages": [
                     {
                         "text": {
-                            "text": [JSON.stringify(body)]
+                            "text": ["Sure, Added " + itemToOrder + " to your cart"]
                                 }
                     }
                 ],
