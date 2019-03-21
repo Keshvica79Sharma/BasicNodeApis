@@ -27,11 +27,11 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
 
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
       var outputContexts = req.body.queryResult.outputContexts;
-      var optionObject = _.find(outputContexts, function(context) {
-            return context['OPTION'] != undefined;
-      });
+//      var optionObject = _.find(outputContexts, function(context) {
+//            return context['OPTION'] != undefined;
+//      });
 
-      responseObj = orderItem(req.body, optionObject['OPTION']);
+      responseObj = orderItem(outputContexts, 'hello');
       return res.json(responseObj);
   }
 
