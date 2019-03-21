@@ -182,7 +182,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
              "fulfillmentMessages": [
                {
                  "quickReplies": {
-                                   "title": string,
+                                   "title": "These are your options",
                                    "quickReplies": [
                                      "Button1", "Button2", "Button3"
                                    ]
