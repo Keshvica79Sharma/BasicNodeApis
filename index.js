@@ -36,9 +36,9 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
 //      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_capability_media_response_audio\"},
 //      {\"name\":\"projects/sams-cart-agent/agent/sessions/ABwppHGTUoPZeQvb5e85IJlgtcBFzaMEzi-5Rc1LIcH_YDlzP90bwliawrfFPN3HH1LUViHdMwQtTAQyb84M/contexts/actions_capability_web_browser\"}]
 
-      var optionObject = _.filter(outputContexts, function(cont){ return cont.parameters != undefined; });
+      var optionObject = _.find(outputContexts, function(cont){ return cont.parameters != undefined; });
 
-      responseObj = orderItem(optionObject, 'hello');
+      responseObj = orderItem(optionObject['OPTION'], 'hello');
       return res.json(responseObj);
   }
 
