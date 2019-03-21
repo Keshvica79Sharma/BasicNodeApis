@@ -179,17 +179,30 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
-            "fulfillmentMessages": [
-               {
-                 "quickReplies": {
-                                   "title": "New These are your options",
-                                   "quickReplies": [
-                                     "Button1", "Button2", "Button3"
-                                   ]
-                                 }
-               }
-             ],
              "source": "example.com",
+             "payload": {
+               "google": {
+                 "expectUserResponse": true,
+                 "richResponse": {
+                   "items": [
+                     {
+                       "quickReplies": {
+                        "title": "New These are your options",
+                        "quickReplies": [
+                                "Button1", "Button2", "Button3"
+                        ]
+                        }
+                     }
+                   ]
+                 }
+               },
+               "facebook": {
+                 "text": "Hello, Facebook!"
+               },
+               "slack": {
+                 "text": "This is a text response for Slack."
+               }
+             }
            };
 
 };
