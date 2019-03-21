@@ -176,11 +176,11 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
 
 function orderItem(ItemToOrder) {
     return {
-                            "fulfillmentText": "heya wazup you " + ItemToOrder,
+                            "fulfillmentText": "heya wazup you cha cha",
                             "fulfillmentMessages": [
                                     {
                                         "text": {
-                                                "text": ["heya wazup you" + ItemToOrder]
+                                                "text": ["heya wazup you"]
                                         }
                                     }
                                     ],
