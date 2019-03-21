@@ -26,7 +26,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   var responseObj = undefined;
 
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
-      responseObj = orderItem(req.body.queryResult.outputContexts.parameters['OPTION']);
+      responseObj = orderItem(req.body);
       return res.json(responseObj);
   }
 
@@ -176,11 +176,11 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
 
 function orderItem(itemName) {
     return {
-              "fulfillmentText": "Sure, Added " + itemName + " to your cart",
+              "fulfillmentText": "Sure, Added " + "chacha" + " to your cart",
               "fulfillmentMessages": [
                     {
                         "text": {
-                            "text": ["Sure, Added " + itemName + " to your cart"]
+                            "text": [JSON.stringify(itemName)]
                                 }
                     }
                 ],
