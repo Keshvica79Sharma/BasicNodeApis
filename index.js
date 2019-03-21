@@ -26,7 +26,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   var responseObj = undefined;
 
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
-      responseObj = orderItem(req.body.queryResult.parameters['ItemToOrder']);
+      responseObj = orderItem(req.body);
       return res.json(responseObj);
   }
 
@@ -174,13 +174,13 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   });
 });
 
-function orderItem(ItemToOrder) {
+function orderItem(body) {
     return {
                             "fulfillmentText": "heya wazup you cha cha",
                             "fulfillmentMessages": [
                                     {
                                         "text": {
-                                                "text": ["heya wazup you"]
+                                                "text": [JSON.stringify(body)]
                                         }
                                     }
                                     ],
