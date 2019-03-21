@@ -23,8 +23,13 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   if(!req.body) return res.sendStatus(400);
 
   res.setHeader('Content-Type', 'application/json');
-
   var responseObj = undefined;
+
+  if(req.body.queryResult.intent.displayName == 'OrderItem') {
+      responseObj = orderItem();
+      return res.json(responseObj);
+  }
+
 
   var category = req.body.queryResult.parameters['ItemCategory'];
   var subCategory = req.body.queryResult.parameters['SubCategory'];
@@ -168,6 +173,20 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
       return res.json(responseObj);
   });
 });
+
+function orderItem() {
+    return {
+                            "fulfillmentText": "heya wazup you",
+                            "fulfillmentMessages": [
+                                    {
+                                        "text": {
+                                                "text": ["heya wazup you"]
+                                        }
+                                    }
+                                    ],
+                                    "source": "hackday-service.herokuapp.com"
+                                };
+};
 
 function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     var itemFlag = "TopRated";
