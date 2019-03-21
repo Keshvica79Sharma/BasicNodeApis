@@ -179,23 +179,6 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
-             "fulfillmentText": "This is a text response",
-             "fulfillmentMessages": [
-               {
-                 "card": {
-                   "title": "card title",
-                   "subtitle": "card text",
-                   "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                   "buttons": [
-                     {
-                       "text": "button text",
-                       "postback": "https://assistant.google.com/"
-                     }
-                   ]
-                 }
-               }
-             ],
-             "source": "example.com",
              "payload": {
                "google": {
                  "expectUserResponse": true,
@@ -203,32 +186,29 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                    "items": [
                      {
                        "simpleResponse": {
-                         "textToSpeech": "hello this is a simple response",
-                         "fulfillmentMessages": [
-                                        {
-                                          "card": {
-                                            "title": "card title",
-                                            "subtitle": "card text",
-                                            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                                            "buttons": [
-                                              {
-                                                "text": "button text",
-                                                "postback": "https://assistant.google.com/"
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
+                         "textToSpeech": "This is a Basic Card:"
+                       }
+                     },
+                     {
+                       "basicCard": {
+                         "title": "Card Title",
+                         "image": {
+                           "url": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+                           "accessibilityText": "Google Logo"
+                         },
+                         "buttons": [
+                           {
+                             "title": "Button Title",
+                             "openUrlAction": {
+                               "url": "https://www.google.com"
+                             }
+                           }
+                         ],
+                         "imageDisplayOptions": "WHITE"
                        }
                      }
                    ]
                  }
-               },
-               "facebook": {
-                 "text": "Hello, Facebook!"
-               },
-               "slack": {
-                 "text": "This is a text response for Slack."
                }
              }
            };
