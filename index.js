@@ -181,17 +181,12 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     return {
              "fulfillmentMessages": [
                {
-                 "card": {
-                   "title": "card title",
-                   "subtitle": "card text",
-                   "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
-                   "buttons": [
-                     {
-                       "text": "button text",
-                       "postback": "https://assistant.google.com/"
-                     }
-                   ]
-                 }
+                 "quickReplies": {
+                                   "title": string,
+                                   "quickReplies": [
+                                     "Button1", "Button2", "Button3"
+                                   ]
+                                 }
                }
              ]
            };
