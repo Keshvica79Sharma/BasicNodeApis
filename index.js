@@ -179,7 +179,6 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
-             "fulfillmentText": "This is a text response",
              "fulfillmentMessages": [
                {
                  "card": {
@@ -194,28 +193,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                    ]
                  }
                }
-             ],
-                "source": "example.com",
-                "payload": {
-                  "google": {
-                    "expectUserResponse": true,
-                    "richResponse": {
-                      "items": [
-                        {
-                          "simpleResponse": {
-                            "textToSpeech": "this is a simple response"
-                          }
-                        }
-                      ]
-                    }
-                  },
-                  "facebook": {
-                    "text": "Hello, Facebook!"
-                  },
-                  "slack": {
-                    "text": "This is a text response for Slack."
-                  }
-                }
+             ]
            };
 
 };
