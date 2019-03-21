@@ -26,8 +26,12 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   var responseObj = undefined;
 
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
-      var itemToOrder = req.body.queryResult.outputContexts[0].parameters['OPTION'];
-      responseObj = orderItem(req.body, itemToOrder);
+      var outputContexts = req.body.queryResult.outputContexts;
+      var optionObject = _.find(outputContexts, function(context) {
+            return context['OPTION'] != undefined;
+      });
+
+      responseObj = orderItem(req.body, optionObject['OPTION']);
       return res.json(responseObj);
   }
 
