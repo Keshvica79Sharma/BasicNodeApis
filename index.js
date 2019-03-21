@@ -26,7 +26,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   var responseObj = undefined;
 
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
-      responseObj = orderItem(req.body);
+      responseObj = orderItem(req.body.queryResult.outputContexts.parameters['OPTION']);
       return res.json(responseObj);
   }
 
@@ -174,18 +174,18 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   });
 });
 
-function orderItem(body) {
+function orderItem(itemName) {
     return {
-                            "fulfillmentText": "heya wazup you cha cha",
-                            "fulfillmentMessages": [
-                                    {
-                                        "text": {
-                                                "text": [JSON.stringify(body)]
-                                        }
-                                    }
-                                    ],
-                                    "source": "hackday-service.herokuapp.com"
-                                };
+              "fulfillmentText": "Sure, Added " + itemName + " to your cart",
+              "fulfillmentMessages": [
+                    {
+                        "text": {
+                            "text": ["Sure, Added " + itemName + " to your cart"]
+                                }
+                    }
+                ],
+                "source": "hackday-service.herokuapp.com"
+          };
 };
 
 function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
