@@ -179,11 +179,11 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
-             "fulfillmentText": "Sure, These are the options",
-             "fulfillmentMessages": [
+            "fulfillmentText": "New text here",
+            "fulfillmentMessages": [
                {
                  "quickReplies": {
-                                   "title": "These are your options",
+                                   "title": "New These are your options",
                                    "quickReplies": [
                                      "Button1", "Button2", "Button3"
                                    ]
