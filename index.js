@@ -179,7 +179,6 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
-            "fulfillmentText": "New text here",
             "fulfillmentMessages": [
                {
                  "quickReplies": {
@@ -189,7 +188,8 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                    ]
                                  }
                }
-             ]
+             ],
+             "source": "example.com",
            };
 
 };
