@@ -208,7 +208,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                 "items": [
                                   {
                                     "simpleResponse": {
-                                      "textToSpeech": "Here is a list of top three matches for your search"
+                                      "textToSpeech": "Sure thing. Here is a list of top three matches for your search"
                                     }
                                   }
                                 ]
@@ -222,7 +222,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                     "items": [
                                       {
                                         "optionInfo": {
-                                          "key": "first",
+                                          "key": topThreeMatches[0].productName,
                                         },
                                         "description": "",
                                         "image": {
@@ -233,7 +233,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                       },
                                       {
                                         "optionInfo": {
-                                          "key": "second"
+                                          "key": topThreeMatches[1].productName
                                         },
                                         "description": "",
                                         "image": {
@@ -244,7 +244,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
                                       },
                                       {
                                         "optionInfo": {
-                                                   "key": "third"
+                                            "key": topThreeMatches[2].productName
                                         },
                                         "description": "",
                                         "image": {
