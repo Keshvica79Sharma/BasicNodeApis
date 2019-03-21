@@ -179,6 +179,7 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
     });
 
     return {
+             "fulfillmentText": "Sure, These are the options",
              "fulfillmentMessages": [
                {
                  "quickReplies": {
