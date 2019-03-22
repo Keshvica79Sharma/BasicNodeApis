@@ -9,8 +9,6 @@ const https = require('https')
 
 const restService = express();
 
-
-
 restService.use(
   bodyParser.urlencoded({
     extended: true
@@ -20,11 +18,16 @@ restService.use(
 restService.use(bodyParser.json());
 
 restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
-  if(!req.body) return res.sendStatus(400);
-
-  res.setHeader('Content-Type', 'application/json');
   var responseObj = undefined;
+  res.setHeader('Content-Type', 'application/json');
 
+  if(!req.body) {
+    console.dir("Body Missing");
+    responseObj = cannotUnderstand();
+    return res.json(responseObj);
+  }
+
+  // This will be the follow up content for any top search
   if(req.body.queryResult.intent.displayName == 'OrderItem') {
       var outputContexts = req.body.queryResult.outputContexts;
       var optionObject = _.find(outputContexts, function(cont){ return cont.parameters != undefined; });
@@ -32,19 +35,26 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
       return res.json(responseObj);
   }
 
-
   var category = req.body.queryResult.parameters['ItemCategory'];
   var subCategory = req.body.queryResult.parameters['SubCategory'];
   var subSubCategory = req.body.queryResult.parameters['SubSubCategory'];
-  if(!category) return res.sendStatus(400);
+
+  if(!category) {
+    console.dir("Category not present");
+    responseObj = cannotUnderstand();
+    return res.json(responseObj);
+  }
 
   // Searching from top 30 items
   var url = "https://www.samsclub.com/api/node/vivaldi/v1/products/search/?sourceType=1&selectedFilter=all&sortKey=relevance&sortOrder=1&offset=0&limit=30&searchTerm=" + category + "&clubId=6612";
 
   Request.get(url, (error, response, body) => {
       if(error) {
-          return console.dir(error);
+          console.dir(error);
+          responseObj = cannotUnderstand();
+          return res.json(responseObj);
       }
+
       var body = JSON.parse(body);
       var records = body.payload.records;
 
@@ -168,13 +178,27 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
                 /*
                 Only category and sub category is defined, lets pull out history or top 5 items
                 */
-                responseObj = searchHistoryOrTopItems(category, filterRecordsPerCategory);
+                responseObj = searchTopThreeItems(category, filterRecordsPerCategory);
 
             }
        }
       return res.json(responseObj);
   });
 });
+
+function cannotUnderstand() {
+ return {
+                  "fulfillmentText": "Sorry, could not understand, can you say that again?",
+                  "fulfillmentMessages": [
+                      {
+                          "text": {
+                              "text": ["Sorry, could not understand, can you say that again?"]
+                          }
+                      }
+                      ],
+                      "source": "hackday-service.herokuapp.com"
+        };
+}
 
 function orderItem(itemToOrder) {
     return {
@@ -190,7 +214,8 @@ function orderItem(itemToOrder) {
           };
 };
 
-function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
+// Searching top 3
+function searchTopThreeItems(category, filterRecordsPerCategory) {
     var itemFlag = "TopRated";
     var topMatches = _.filter(filterRecordsPerCategory, function(record) {
         return record.itemFlag == itemFlag;
@@ -199,70 +224,160 @@ function searchHistoryOrTopItems(category, filterRecordsPerCategory) {
             return topMatches.indexOf(record) < 3;
     });
 
-    console.dir(topThreeMatches[0]);
-
-    return {
-             "source": "example.com",
-             "payload": {
-                            "google": {
-                              "expectUserResponse": true,
-                              "richResponse": {
-                                "items": [
-                                  {
-                                    "simpleResponse": {
-                                      "textToSpeech": "Sure thing. Here is a list of top three matches for your search"
+    if(topThreeMatches.length == 1) {
+        return {
+                     "source": "example.com",
+                     "payload": {
+                                    "google": {
+                                      "expectUserResponse": true,
+                                      "richResponse": {
+                                        "items": [
+                                          {
+                                            "simpleResponse": {
+                                              "textToSpeech": "Sure thing. Here is a list of top three matches for your search. Please select one"
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "systemIntent": {
+                                        "intent": "actions.intent.OPTION",
+                                        "data": {
+                                          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+                                          "listSelect": {
+                                            "title": category,
+                                            "items": [
+                                              {
+                                                "optionInfo": {
+                                                  "key": topThreeMatches[0].productName,
+                                                },
+                                                "description": "",
+                                                "image": {
+                                                  "url": "https:" + topThreeMatches[0].listImage,
+                                                  "accessibilityText": "first alt"
+                                                },
+                                                "title": topThreeMatches[0].productName
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
                                     }
                                   }
-                                ]
-                              },
-                              "systemIntent": {
-                                "intent": "actions.intent.OPTION",
-                                "data": {
-                                  "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-                                  "listSelect": {
-                                    "title": category,
-                                    "items": [
-                                      {
-                                        "optionInfo": {
-                                          "key": topThreeMatches[0].productName,
-                                        },
-                                        "description": "",
-                                        "image": {
-                                          "url": "https:" + topThreeMatches[0].listImage,
-                                          "accessibilityText": "first alt"
-                                        },
-                                        "title": topThreeMatches[0].productName
+                   };
+    } else if(topThreeMatches.length == 2) {
+        return {
+                     "source": "example.com",
+                     "payload": {
+                                    "google": {
+                                      "expectUserResponse": true,
+                                      "richResponse": {
+                                        "items": [
+                                          {
+                                            "simpleResponse": {
+                                              "textToSpeech": "Sure thing. Here is a list of top three matches for your search. Please select one"
+                                            }
+                                          }
+                                        ]
                                       },
-                                      {
-                                        "optionInfo": {
-                                          "key": topThreeMatches[1].productName
-                                        },
-                                        "description": "",
-                                        "image": {
-                                          "url": "https:" + topThreeMatches[1].listImage,
-                                          "accessibilityText": "second alt"
-                                        },
-                                        "title": topThreeMatches[1].productName
-                                      },
-                                      {
-                                        "optionInfo": {
-                                            "key": topThreeMatches[2].productName
-                                        },
-                                        "description": "",
-                                        "image": {
-                                         "url": "https:" + topThreeMatches[2].listImage,
-                                         "accessibilityText": "second alt"
-                                         },
-                                         "title": topThreeMatches[2].productName
+                                      "systemIntent": {
+                                        "intent": "actions.intent.OPTION",
+                                        "data": {
+                                          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+                                          "listSelect": {
+                                            "title": category,
+                                            "items": [
+                                              {
+                                                "optionInfo": {
+                                                  "key": topThreeMatches[0].productName,
+                                                },
+                                                "description": "",
+                                                "image": {
+                                                  "url": "https:" + topThreeMatches[0].listImage,
+                                                  "accessibilityText": "first alt"
+                                                },
+                                                "title": topThreeMatches[0].productName
+                                              },
+                                              {
+                                                "optionInfo": {
+                                                  "key": topThreeMatches[1].productName
+                                                },
+                                                "description": "",
+                                                "image": {
+                                                  "url": "https:" + topThreeMatches[1].listImage,
+                                                  "accessibilityText": "second alt"
+                                                },
+                                                "title": topThreeMatches[1].productName
+                                              }
+                                            ]
+                                          }
+                                        }
                                       }
-                                    ]
+                                    }
                                   }
-                                }
-                              }
-                            }
-                          }
-           };
-
+                   };
+    } else {
+        return {
+                     "source": "example.com",
+                     "payload": {
+                                    "google": {
+                                      "expectUserResponse": true,
+                                      "richResponse": {
+                                        "items": [
+                                          {
+                                            "simpleResponse": {
+                                              "textToSpeech": "Sure thing. Here is a list of top three matches for your search. Please select one"
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "systemIntent": {
+                                        "intent": "actions.intent.OPTION",
+                                        "data": {
+                                          "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+                                          "listSelect": {
+                                            "title": category,
+                                            "items": [
+                                              {
+                                                "optionInfo": {
+                                                  "key": topThreeMatches[0].productName,
+                                                },
+                                                "description": "",
+                                                "image": {
+                                                  "url": "https:" + topThreeMatches[0].listImage,
+                                                  "accessibilityText": "first alt"
+                                                },
+                                                "title": topThreeMatches[0].productName
+                                              },
+                                              {
+                                                "optionInfo": {
+                                                  "key": topThreeMatches[1].productName
+                                                },
+                                                "description": "",
+                                                "image": {
+                                                  "url": "https:" + topThreeMatches[1].listImage,
+                                                  "accessibilityText": "second alt"
+                                                },
+                                                "title": topThreeMatches[1].productName
+                                              },
+                                              {
+                                                "optionInfo": {
+                                                    "key": topThreeMatches[2].productName
+                                                },
+                                                "description": "",
+                                                "image": {
+                                                 "url": "https:" + topThreeMatches[2].listImage,
+                                                 "accessibilityText": "second alt"
+                                                 },
+                                                 "title": topThreeMatches[2].productName
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                   };
+    }
 };
 
 restService.listen(process.env.PORT || 8000, function() {
