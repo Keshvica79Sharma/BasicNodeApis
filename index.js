@@ -9,6 +9,8 @@ const https = require('https')
 
 const restService = express();
 
+var TOPSEARCH = undefined;
+
 restService.use(
   bodyParser.urlencoded({
     extended: true
@@ -163,11 +165,11 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
                         })
 
                         responseObj = {
-                        "fulfillmentText": "Sure, Added " + itemToOrder.productName + " to your cart",
+                        "fulfillmentText": "Sure, Added " + itemToOrder.productName + " to your sams cart",
                         "fulfillmentMessages": [
                                 {
                                     "text": {
-                                            "text": ["Sure, Added " + itemToOrder.productName + " to your cart"]
+                                            "text": ["Sure, Added " + itemToOrder.productName + " to your sams cart"]
                                     }
                                 }
                                 ],
@@ -201,21 +203,59 @@ function cannotUnderstand() {
 }
 
 function orderItem(itemToOrder) {
+    var addToCart = _.find(TOPSEARCH, function(itemMatch){ return itemMatch.productName == itemToOrder; });
+    var productId = addToCart.productId;
+    var skuId = addToCart.skuOptions[0].skuId;
+
+    var body = {"payload":{"items":[{"quantity":1,"channel":"club","offerId":{"USItemId": productId,"USVariantId": skuId,"USSellerId":0}}]}};
+
+    // Set the headers
+    var headers = {
+    'Content-Type': 'application/json',
+    'scheme':'https',
+    'accept-encoding':'gzip, deflate, br',
+    'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
+    'origin':'https://www.samsclub.com',
+    'cookie': 'JSESSIONID=8B45821873B9EBF74EE9D481D44F2162.estoreapp-44277956-16-70642835'}
+
+    // Configure the request
+    var options = {
+        url: 'https://www.samsclub.com/api/node/cartservice/v1/carts/800f6c9d685e3dbb7b5442f101781d2d/cartitems?response_groups=cart.medium',
+        port: 443,
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(body)
+    }
+
+    // Start the request
+    Request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+        // Print out the response body
+        console.log("****SUCESS");
+        console.log(body)
+    } else {
+        console.log("****fail");
+        console.log(error);
+    }
+    })
+
     return {
-              "fulfillmentText": "Sure, Added " + itemToOrder + " to your cart",
-              "fulfillmentMessages": [
-                    {
-                        "text": {
-                            "text": ["Sure, Added " + itemToOrder + " to your cart"]
-                                }
-                    }
-                ],
-                "source": "hackday-service.herokuapp.com"
-          };
+        "fulfillmentText": "Sure, Added " + addToCart.productName + " to your sams cart",
+            "fulfillmentMessages": [
+                {
+                    "text": {
+                    "text": ["Sure, Added " + addToCart.productName + " to your sams cart"]
+                }
+            }
+        ],
+        "source": "hackday-service.herokuapp.com"
+    };
 };
 
 // Searching top 3
 function searchTopThreeItems(category, filterRecordsPerCategory) {
+    var topThreeMatches = undefined;
+
     var itemFlag = "TopRated";
     var topMatches = _.filter(filterRecordsPerCategory, function(record) {
         return record.itemFlag == itemFlag;
@@ -223,6 +263,15 @@ function searchTopThreeItems(category, filterRecordsPerCategory) {
     var topThreeMatches = _.filter(topMatches, function(record) {
             return topMatches.indexOf(record) < 3;
     });
+
+    if(topThreeMatches.length == 0) {
+        var topThreeMatches = _.filter(filterRecordsPerCategory, function(record) {
+                    return filterRecordsPerCategory.indexOf(record) < 3;
+            });
+    }
+
+    // SETTING FOR FOLLOWUP CONTENT
+    TOPSEARCH = topThreeMatches;
 
     if(topThreeMatches.length == 1) {
         return {
