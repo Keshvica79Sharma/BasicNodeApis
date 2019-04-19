@@ -141,7 +141,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
                             'accept-encoding':'gzip, deflate, br',
                             'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
                             'origin':'https://www.samsclub.com',
-                            'cookie': 'JSESSIONID=109B7F7BD66ABB99BAD7E09790B59A68.estoreapp-44277244-32-353313923'}
+                            'cookie': 'JSESSIONID=2F2A34525277F52D0E1AB097B31F7F94.estoreapp-44277244-32-353313923'}
 
                         // Configure the request
                         var options = {
@@ -216,7 +216,7 @@ function orderItem(itemToOrder) {
     'accept-encoding':'gzip, deflate, br',
     'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
     'origin':'https://www.samsclub.com',
-    'cookie': 'JSESSIONID=109B7F7BD66ABB99BAD7E09790B59A68.estoreapp-44277244-32-353313923'}
+    'cookie': 'JSESSIONID=2F2A34525277F52D0E1AB097B31F7F94.estoreapp-44277244-32-353313923'}
 
     // Configure the request
     var options = {
@@ -234,7 +234,7 @@ function orderItem(itemToOrder) {
         console.log("****SUCESS");
         console.log(body)
     } else {
-        console.log("****fail");
+        console.log("****FAILURE");
         console.log(error);
     }
     })
