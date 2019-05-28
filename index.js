@@ -140,7 +140,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
                             'scheme':'https',
                             'accept-encoding':'gzip, deflate, br',
                             'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
-                            'origin':'https://www.samsclub.com',
+                            'origin':'https://xxx',
                             'cookie': 'blah'}
 
                         // Configure the request
@@ -215,7 +215,7 @@ function orderItem(itemToOrder) {
     'scheme':'https',
     'accept-encoding':'gzip, deflate, br',
     'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
-    'origin':'https://www.samsclub.com',
+    'origin':'xxx',
     'cookie': 'blah'}
 
     // Configure the request
