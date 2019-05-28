@@ -48,7 +48,7 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
   }
 
   // Searching from top 30 items
-  var url = "https://www.samsclub.com/api/node/vivaldi/v1/products/search/?sourceType=1&selectedFilter=all&sortKey=relevance&sortOrder=1&offset=0&limit=30&searchTerm=" + category + "&clubId=6612";
+  var url = "https://xxx/api/node/vivaldi/v1/products/search/?sourceType=1&selectedFilter=all&sortKey=relevance&sortOrder=1&offset=0&limit=30&searchTerm=" + category + "&clubId=xxx";
 
   Request.get(url, (error, response, body) => {
       if(error) {
@@ -141,11 +141,11 @@ restService.post("/selectAppropriateItemOrPlaceOrder", function(req, res) {
                             'accept-encoding':'gzip, deflate, br',
                             'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
                             'origin':'https://www.samsclub.com',
-                            'cookie': 'JSESSIONID=2F2A34525277F52D0E1AB097B31F7F94.estoreapp-44277244-32-353313923'}
+                            'cookie': 'blah'}
 
                         // Configure the request
                         var options = {
-                            url: 'https://www.samsclub.com/api/node/cartservice/v1/carts/29a73eedf0f85069333a107ba1ca3a17/cartitems?response_groups=cart.medium',
+                            url: 'https://xxx/api/node/cartservice/v1/carts/29a73eedf0f85069333a107ba1ca3a17/cartitems?response_groups=cart.medium',
                             port: 443,
                             method: 'POST',
                             headers: headers,
@@ -216,11 +216,11 @@ function orderItem(itemToOrder) {
     'accept-encoding':'gzip, deflate, br',
     'accept-language':'en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7',
     'origin':'https://www.samsclub.com',
-    'cookie': 'JSESSIONID=2F2A34525277F52D0E1AB097B31F7F94.estoreapp-44277244-32-353313923'}
+    'cookie': 'blah'}
 
     // Configure the request
     var options = {
-        url: 'https://www.samsclub.com/api/node/cartservice/v1/carts/29a73eedf0f85069333a107ba1ca3a17/cartitems?response_groups=cart.medium',
+        url: 'https://xxxx/api/node/cartservice/v1/carts/29a73eedf0f85069333a107ba1ca3a17/cartitems?response_groups=cart.medium',
         port: 443,
         method: 'POST',
         headers: headers,
